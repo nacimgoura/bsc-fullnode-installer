@@ -5,13 +5,13 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Start.
-echo "BSC Fullnode Installer - GitHub: @tarik0"
-echo "Credits - PhatJay for those steps."
+echo "BSC Fullnode Installer - GitHub: @nacimgoura"
 
 # Download NPM and PM2.
 echo "Installing NPM and PM2..."
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt update
-apt install nodejs npm
+apt install nodejs npm unzip
 npm install pm2 -g
 
 # Download unzip.
@@ -34,10 +34,11 @@ chmod +x /home/geth/start.sh
 # Download the latest mainnet config.
 echo "Downloading the latest BSC mainnet config..."
 wget -O /home/geth/mainnet.zip https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
+unzip /home/geth/mainnet.zip
 
 # Initialize the geth. 
 echo "Initializing the geth..."
-/home/geth/geth_linux --datadir mainnet init genesis.json
+/home/geth/geth_linux --datadir node init /home/geth/geth_linux/mainnet/genesis.json
 
 # Setup systemd
 echo "Initializing systemd..."
